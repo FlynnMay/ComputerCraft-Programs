@@ -2,16 +2,15 @@ local w = 5;
 local l = 5;
 local d = 5;
 
-
-for i = 0, d, 1 do
-    for j = 0, l, 1 do
-        for k = 0, w, 1 do
+for i = 0, d -1, 1 do
+    for j = 0, l -1, 1 do
+        for k = 0, w -1, 1 do
             turtle.dig();
             turtle.forward();
             -- write("F ")
         end
 
-        if j ~= l then 
+        if j ~= l -1 then 
             
             if j % 2 == 0 then
                 turtle.turnRight()
