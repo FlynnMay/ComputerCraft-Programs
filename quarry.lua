@@ -3,15 +3,15 @@ if #arg < 2 then
     print("Usage: quarry <width> <length> <depth>");
 end
 
-local w = tonumber(arg[1]) -1;
-local l = tonumber(arg[2]) -1;
-local d = tonumber(arg[3]) -1;
+local w = tonumber(arg[1]);
+local l = tonumber(arg[2]);
+local d = tonumber(arg[3]);
 
 local dirToggle = true;
 
-for i = 0, d, 1 do
-    for j = 0, l, 1 do
-        for k = 0, w, 1 do
+for i = 1, d, 1 do
+    for j = 1, l, 1 do
+        for k = 2, w, 1 do
             turtle.dig();
             turtle.forward();
             -- write("F ")
