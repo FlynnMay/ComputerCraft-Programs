@@ -1,6 +1,11 @@
-local w = 5;
-local l = 5;
-local d = 5;
+
+if #arg < 2 then 
+    print("Usage: quarry <width> <length> <depth>");
+end
+
+local w = tonumber(arg[1]);
+local l = tonumber(arg[2]);
+local d = tonumber(arg[3]);
 
 local dirToggle = true;
 
