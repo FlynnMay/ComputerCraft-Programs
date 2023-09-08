@@ -6,5 +6,5 @@ local function loadFile(name)
 end
 
 loadFile("update")
--- loadFile("quarry")
--- loadFile("travel")
+loadFile("quarry")
+loadFile("travel")
