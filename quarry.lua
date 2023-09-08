@@ -1,5 +1,5 @@
 
-if #arg < 2 then 
+if #arg < 3 then 
     print("Usage: quarry <width> <length> <depth>");
 end
 
