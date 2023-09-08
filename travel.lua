@@ -65,8 +65,10 @@ local function buildTravelActions(heading, distances)
         if (axisName == "y") then
             for i = 1, math.abs(length) do
                 if length > 0 then
+                    table.insert(actions, turtle.digUp)
                     table.insert(actions, turtle.up)
                 elseif length < 0 then
+                    table.insert(actions, turtle.digDown)
                     table.insert(actions, turtle.down)
                 end
             end
@@ -77,7 +79,8 @@ local function buildTravelActions(heading, distances)
             end
 
             for i = 1, math.abs(length) do
-                table.insert(actions, turtle.forward)
+                    table.insert(actions, turtle.dig)
+                    table.insert(actions, turtle.forward)
             end
             lastHeading = targetHeading;
         end
