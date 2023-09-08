@@ -21,6 +21,7 @@ local function calibrateHeading()
 end
 
 local function sortCoordinatesDescending(vec)
+    print(tostring(vec))
     local coordinatePairs = { { "x", vec.x }, { "y", vec.y }, { "z", vec.z } }
     table.sort(coordinatePairs, function(a, b)
         return a[2] > b[2]
@@ -80,19 +81,14 @@ if #arg < 3 then
 end
 
 local heading = calibrateHeading();
-print("gate: 1")
 
 local pos = gps.locate()
-print("gate: 2")
 
 local target = vector.new(tonumber(arg[1]), tonumber(arg[2]), tonumber(arg[3]))
-print("gate: 3")
 
 local travelDistances = sortCoordinatesDescending(target - pos);
-print("gate: 4")
 
 local actions = buildTravelActions(heading, travelDistances)
-print("gate: 5")
 
 for _, action in ipairs(actions) do
     action()
