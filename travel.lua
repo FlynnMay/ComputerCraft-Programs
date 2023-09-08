@@ -22,7 +22,7 @@ end
 
 local function sortCoordinatesDescending(vec)
     local coordinatePairs = { { "x", vec.x }, { "y", vec.y }, { "z", vec.z } }
-    table.sort(coordinatePairs, function (a, b)
+    table.sort(coordinatePairs, function(a, b)
         return a[2] > b[2]
     end)
 
@@ -34,8 +34,8 @@ end
 --         return wrap(max - value, min, max)
 --         elseif value < min then
 --             return
---     end 
-    
+--     end
+
 
 -- end
 
@@ -59,15 +59,17 @@ local function buildTravelActions(heading, distances)
         local axisName = axisPair[1]
         local length = axisPair[2]
         local axisHeading = (length < 0 and "-" or "+") .. axisName
-        
-        -- if axisHeading ~= headingDecodeMap[lastHeading] then
-            for i = 1,  headingEncodeMap[axisHeading] % lastHeading do
-                table.insert(actions, turtle.turnRight)
-            end
 
-            for i = 1, length do
-                table.insert(actions, turtle.forward)
-            end
+        -- if axisHeading ~= headingDecodeMap[lastHeading] then
+        local targetHeading = headingEncodeMap[axisHeading];
+        for i = 1, targetHeading % lastHeading do
+            table.insert(actions, turtle.turnRight)
+        end
+
+        for i = 1, length do
+            table.insert(actions, turtle.forward)
+        end
+        lastHeading = targetHeading;
         -- end
     end
 end
@@ -77,13 +79,14 @@ if #arg < 3 then
     print("Usage: travel <x> <y> <z>");
 end
 
+local heading = calibrateHeading();
 local pos = gps.locate()
 
 local target = vector.new(tonumber(arg[1]), tonumber(arg[2]), tonumber(arg[3]))
 
 local travelDistances = sortCoordinatesDescending(target - pos);
 
-local actions = buildTravelActions(calibrateHeading(), travelDistances)
+local actions = buildTravelActions(heading, travelDistances)
 
 for _, action in ipairs(actions) do
     action()
