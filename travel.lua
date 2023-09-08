@@ -21,7 +21,6 @@ local function calibrateHeading()
 end
 
 local function sortCoordinatesDescending(vec)
-    print(tostring(vec))
     local coordinatePairs = { { "x", vec.x }, { "y", vec.y }, { "z", vec.z } }
     table.sort(coordinatePairs, function(a, b)
         return a[2] > b[2]
@@ -62,15 +61,26 @@ local function buildTravelActions(heading, distances)
         local axisHeading = (length < 0 and "-" or "+") .. axisName
 
         -- if axisHeading ~= headingDecodeMap[lastHeading] then
-        local targetHeading = headingEncodeMap[axisHeading];
-        for i = 1, targetHeading % lastHeading do
-            table.insert(actions, turtle.turnRight)
-        end
 
-        for i = 1, length do
-            table.insert(actions, turtle.forward)
+        if (axisName == "y") then
+            for i = 1, math.abs(length) do
+                if length > 0 then
+                    table.insert(actions, turtle.up)
+                elseif length < 0 then
+                    table.insert(actions, turtle.down)
+                end
+            end
+        else
+            local targetHeading = headingEncodeMap[axisHeading];
+            for i = 1, targetHeading % lastHeading do
+                table.insert(actions, turtle.turnRight)
+            end
+
+            for i = 1, math.abs(length) do
+                table.insert(actions, turtle.forward)
+            end
+            lastHeading = targetHeading;
         end
-        lastHeading = targetHeading;
         -- end
     end
 end
@@ -81,14 +91,19 @@ if #arg < 3 then
 end
 
 local heading = calibrateHeading();
+print("gate: 1")
 
-local pos = gps.locate()
+local pos = vector.new(gps.locate())
+print("gate: 2")
 
 local target = vector.new(tonumber(arg[1]), tonumber(arg[2]), tonumber(arg[3]))
+print("gate: 3")
 
 local travelDistances = sortCoordinatesDescending(target - pos);
+print("gate: 4")
 
 local actions = buildTravelActions(heading, travelDistances)
+print("gate: 5")
 
 for _, action in ipairs(actions) do
     action()
