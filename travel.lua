@@ -1,11 +1,12 @@
 -- Helper Functions--
 local function calibrateHeading()
-    local locOrigin = gps.locate()
+    local locOrigin = vector.new(gps.locate(2, false))
+
     if not turtle.forward() then
         turtle.dig()
         turtle.forward()
     end
-    local locEnding = gps.locate()
+    local locEnding = vector.new(gps.locate(2, false))
 
     local heading = locEnding - locOrigin
     
