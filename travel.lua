@@ -83,6 +83,8 @@ local function buildTravelActions(heading, distances)
         end
         -- end
     end
+
+    return actions;
 end
 
 -- Main Code --
@@ -91,19 +93,14 @@ if #arg < 3 then
 end
 
 local heading = calibrateHeading();
-print("gate: 1")
 
 local pos = vector.new(gps.locate())
-print("gate: 2")
 
 local target = vector.new(tonumber(arg[1]), tonumber(arg[2]), tonumber(arg[3]))
-print("gate: 3")
 
 local travelDistances = sortCoordinatesDescending(target - pos);
-print("gate: 4")
 
 local actions = buildTravelActions(heading, travelDistances)
-print("gate: 5")
 
 for _, action in ipairs(actions) do
     action()

@@ -5,6 +5,6 @@ local function loadFile(name)
     print("Updated: " .. name)
 end
 
-loadFile("quarry")
 loadFile("update")
-loadFile("travel")
+-- loadFile("quarry")
+-- loadFile("travel")
