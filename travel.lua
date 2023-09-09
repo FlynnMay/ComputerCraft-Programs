@@ -74,8 +74,9 @@ local function buildTravelActions(heading, distances)
             end
         else
             local targetHeading = headingEncodeMap[axisHeading];
-            for i = 1, targetHeading % lastHeading do
-                table.insert(actions, turtle.turnRight)
+            local neededRot = targetHeading - lastHeading;
+            for i = 1, math.abs(neededRot) do
+                table.insert(actions, targetHeading > 0 and turtle.turnRight or turtle.turnLeft)
             end
 
             for i = 1, math.abs(length) do
