@@ -7,7 +7,7 @@ end
 local w = tonumber(arg[1]);
 local l = tonumber(arg[2]);
 local d = tonumber(arg[3]);
-local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5], tonumber(arg[6])))
+local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5]), tonumber(arg[6]))
 
 shell.run("travel.lua",   startPoint.x .. " " .. startPoint.y .. " " .. startPoint.z)
 
