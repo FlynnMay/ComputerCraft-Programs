@@ -88,7 +88,7 @@ local function moveTo(coords)
 
     local travelDistances = sortCoordinatesDescending(coords - pos);
 
-    for _, axisPair in ipairs(distances) do
+    for _, axisPair in ipairs(travelDistances) do
         local axisName = axisPair[1]
         local length = axisPair[2]
         local axisHeading = (length < 0 and "-" or "+") .. axisName
