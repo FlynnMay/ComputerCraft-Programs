@@ -2,7 +2,7 @@ local extendedTurtle = require("extendedTurtle")
 
 -- Main Code --
 if #arg < 3 then
-    print("Usage: travel <x> <y> <z>");
+    print("Usage: betaTravel <x> <y> <z>");
 end
 
 local target = vector.new(tonumber(arg[1]), tonumber(arg[2]), tonumber(arg[3]))
