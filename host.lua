@@ -41,4 +41,4 @@ for _, value in ipairs(instrunctions) do
     args = args .. " " .. value
 end
 
-os.run({}, command, args)
+shell.run(command, args)
