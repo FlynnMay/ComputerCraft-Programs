@@ -42,3 +42,4 @@ for _, value in ipairs(instrunctions) do
 end
 
 shell.run(command, args)
+shell.run("host")
