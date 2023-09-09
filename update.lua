@@ -5,6 +5,13 @@ local function loadFile(name)
     print("Updated: " .. name)
 end
 
-loadFile("update")
-loadFile("quarry")
-loadFile("travel")
+
+if #arg < 1 then
+    loadFile("update")
+    loadFile("quarry")
+    loadFile("travel")
+else
+    for i = 1, #arg, 1 do
+        loadFile(arg[i])
+    end
+end
