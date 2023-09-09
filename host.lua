@@ -23,7 +23,7 @@ rednet.open("left")
 
 local command = ""
 local instrunctions = {}
-local validCommands = {"travel.lua"}
+local validCommands = {"travel.lua", "quarry.lua"}
 
 repeat
     local id, msg = rednet.receive()
