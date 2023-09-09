@@ -104,8 +104,6 @@ local function decodeAxis(encodedAxis)
 end
 
 local function moveTo(coords)
-    local heading = calibrateHeading();
-
     local pos = vector.new(gps.locate())
 
     local travelDistances = sortCoordinatesDescending(coords - pos);
@@ -115,7 +113,7 @@ local function moveTo(coords)
         local length = axisPair[2]
 
         if axisName == "y" then
-            for i = 1, length do
+            for i = 1, math.abs(length) do
                 if length > 0 then
                     up()
                 elseif length < 0 then
@@ -127,7 +125,7 @@ local function moveTo(coords)
 
             face(encodeAxis(axisHeading));
 
-            for i = 1, length do
+            for i = 1, math.abs(length) do
                 forward()
             end
         end
