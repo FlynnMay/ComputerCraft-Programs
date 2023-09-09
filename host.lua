@@ -23,7 +23,7 @@ rednet.open("left")
 
 local command = ""
 local instrunctions = {}
-local validCommands = {"travel"}
+local validCommands = {"travel.lua"}
 
 repeat
     local id, msg = rednet.receive()
@@ -31,11 +31,14 @@ repeat
 
     if msg ~= nil then
         instrunctions = string.split(msg, ' ')
-        command = instrunctions[1]
-
-        table.remove(instrunctions, 1)
+        command = table.remove(instrunctions, 1)
     end
         
 until tableContainsValue(validCommands, command)
 
-os.run({}, command, instrunctions)
+local args = ""
+for _, value in ipairs(instrunctions) do
+    args = args .. " " .. value
+end
+
+os.run({}, command, args)
