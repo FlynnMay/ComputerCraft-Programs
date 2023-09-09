@@ -1,11 +1,15 @@
 
-if #arg < 3 then 
-    print("Usage: quarry <width> <length> <depth>");
+if #arg < 6 then 
+    print("Usage: quarry size: <width> <length> <depth> position: <x> <y> <z>");
 end
+
 
 local w = tonumber(arg[1]);
 local l = tonumber(arg[2]);
 local d = tonumber(arg[3]);
+local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5], tonumber(arg[6])))
+
+shell.run("travel.lua",   startPoint.x .. " " .. startPoint.y .. " " .. startPoint.z)
 
 local dirToggle = true;
 

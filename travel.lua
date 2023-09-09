@@ -10,13 +10,6 @@ local function calibrateHeading()
 
     local heading = locEnding - locOrigin
 
-    --[[
-        -x = 1
-        -z = 2
-        +x = 3
-        +z = 4
-    --]]
-
     return ((heading.x + math.abs(heading.x) * 2) + (heading.z + math.abs(heading.z) * 3))
 end
 
@@ -28,16 +21,6 @@ local function sortCoordinatesDescending(vec)
 
     return coordinatePairs
 end
-
--- local function wrap(value, min, max)
---     if value > max then
---         return wrap(max - value, min, max)
---         elseif value < min then
---             return
---     end
-
-
--- end
 
 local function buildTravelActions(heading, distances)
     local lastHeading = heading
@@ -76,7 +59,7 @@ local function buildTravelActions(heading, distances)
             local targetHeading = headingEncodeMap[axisHeading];
             local neededRot = targetHeading - lastHeading;
             for i = 1, math.abs(neededRot) do
-                table.insert(actions, targetHeading > 0 and turtle.turnRight or turtle.turnLeft)
+                table.insert(actions, neededRot > 0 and turtle.turnRight or turtle.turnLeft)
             end
 
             for i = 1, math.abs(length) do
