@@ -75,7 +75,7 @@ local function deploy(pos, w, l, d)
     end
 
     inventory.placeItemUpFromSlot(slot)
-    
+    peripheral.call("top", "turnOn")
     -- wait for client to connect to the server
     local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
 
