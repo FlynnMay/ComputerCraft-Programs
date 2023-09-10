@@ -64,7 +64,7 @@ rednet.open("left")
 
 local command = ""
 local instrunctions = {}
-local validCommands = { "travel.lua", "quarry.lua", "betaTravel.lua" }
+local validCommands = { "dispatch" }
 local recommendedMaxBlocksPerUnit = 1000
 
 repeat
