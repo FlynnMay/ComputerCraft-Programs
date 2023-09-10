@@ -173,7 +173,5 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-    write(subRectangle.x ..
-    " " .. pos.y .. " " .. subRectangle.x .. " " .. subRectangle.width .. " " .. subRectangle.length .. " " .. d)
-    deploy(vector.new(subRectangle.x, pos.y, subRectangle.x), subRectangle.width, subRectangle.length, d)
+    deploy(vector.new(subRectangle.x, pos.y, subRectangle.y), subRectangle.width, subRectangle.height, d)
 end
