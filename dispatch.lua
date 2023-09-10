@@ -91,8 +91,7 @@ local function deploy(pos, w, l, d)
     -- send away
     local payload = string.format("%d %d %d %d %d %d", pos.x, pos.y, pos.z, w, l, d)
     print(payload)
-    modem.trasmit(CLIENT_PORT, SERVER_PORT, payload)
-    -- instruct return
+    modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end
 
 -- Main Code --
