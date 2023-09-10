@@ -2,12 +2,10 @@ local extendedTurtle = require("extendedTurtle")
 
 -- returns if it was found and the slot (0 if not found)
 local function findItem(targetName)
-    for i = 1, 16 do
-        turtle.select(i)
-        
+    for i = 1, 16 do      
         local item = turtle.getItemDetail(1)
 
-        if item ~= nil then return end
+        if item == nil then return end
 
         if item["name"] == targetName then
             return { true, i }
