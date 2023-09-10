@@ -61,7 +61,7 @@ end
 
 local function deploy(pos, w, l, d)
     -- place turtle
-    local found, slot = inventory.findItem("computercraft:turtle_expanded")
+    local found, slot = inventory.findItem("computercraft:turtle_normal")
 
     if not found then
         print("dispatch requires units!")
@@ -105,7 +105,7 @@ local pos = vector.new(tonumber(instrunctions[4]), tonumber(instrunctions[5]), t
 
 local totalBlocksToMine = w * l * d
 local recommendedUnitCount = totalBlocksToMine / recommendedMaxBlocksPerUnit
-local availableUnitCount = inventory.getTotalItemCount("computercraft:turtle_expanded")
+local availableUnitCount = inventory.getTotalItemCount("computercraft:turtle_normal")
 
 local subRectangles = {}
 if availableUnitCount > recommendedUnitCount then
