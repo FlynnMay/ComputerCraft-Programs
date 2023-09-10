@@ -1,9 +1,33 @@
+local function checkInventory()
+    if not inventory.allSlotsContainItems() then return end
+
+    local containerName = "kibe:entangled_chest"
+    local found, slot = inventory.findItem(containerName)
+
+    if not found then return end
+
+    inventory.placeItemUpFromSlotFromSlot(slot)
+    
+    for i = 1, 16 do
+        turtle.select(i)
+
+        local containerHasSpace = turtle.dropUp()
+        while containerHasSpace and inventory.hoveringOverItem() do
+            containerHasSpace = turtle.dropUp()
+        end
+    end
+
+    extendedTurtle.clearObstructionsUp()
+end
+
+-- Main Code --
 
 if #arg < 6 then 
     print("Usage: quarry size: <width> <length> <depth> position: <x> <y> <z>");
 end
 
 local extendedTurtle = require("extendedTurtle")
+local inventory = require("inventory")
 
 local w = tonumber(arg[1]);
 local l = tonumber(arg[2]);
@@ -38,6 +62,8 @@ for i = 1, d, 1 do
 
             dirToggle = not dirToggle;
         end
+
+        checkInventory()
     end
     extendedTurtle.down()
     extendedTurtle.turnRight()
