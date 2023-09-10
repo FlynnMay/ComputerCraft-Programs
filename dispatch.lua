@@ -113,7 +113,7 @@ if availableUnitCount > recommendedUnitCount then
     subRectangles = divideRect(recommendedUnitCount, pos.x, pos.z, w, l)
 else
     -- Send availableUnitCount
-    subRectangles = divideRect(recommendedUnitCount, pos.x, pos.z, w, l)
+    subRectangles = divideRect(recommendedUnitCount < 1 and 1 or recommendedUnitCount, pos.x, pos.z, w, l)
 end
 
 for i = 1, #subRectangles do
