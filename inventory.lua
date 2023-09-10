@@ -37,11 +37,8 @@ end
 
 local function allSlotsContainItems()
     for i = 1, 16 do
-        turtle.select(i)
-        local name, count = turtle.getItemDetail(1)
-        if name == nil then
-            return false
-        end
+        local item = turtle.getItemDetail(i)
+        if item == nil then return false end
     end
 
     return true
@@ -53,5 +50,19 @@ local function hoveringOverItem()
     return name ~= nil
 end
 
+local function getTotalItemCount(itemName)
+    local totalFound = 0
+
+    for i = 1, 16 do
+        local item = turtle.getItemDetail(i)
+        
+        if item ~= nil then
+            if item["name"] == itemName then
+                totalFound = totalFound + turtle.getItemCount()
+            end
+        end
+    end
+end
+
 return { findItem = findItem, placeItemDownFromSlot = placeItemDownFromSlot, placeItemUpFromSlot = placeItemUpFromSlot,
-    placeItemFromSlot = placeItemFromSlot, allSlotsContainItems = allSlotsContainItems, hoveringOverItem = hoveringOverItem }
+    placeItemFromSlot = placeItemFromSlot, allSlotsContainItems = allSlotsContainItems, hoveringOverItem = hoveringOverItem, getTotalItemCount = getTotalItemCount }

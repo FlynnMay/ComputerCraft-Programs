@@ -1,4 +1,5 @@
-local trackedHeading = 0;
+local trackedHeading = 0
+local homeLocation = vector.new(0,0,0)
 
 local function calibrateHeading()
     local locOrigin = vector.new(gps.locate(2, false))
@@ -72,6 +73,7 @@ end
 
 local function init()
     trackedHeading = calibrateHeading();
+    homeLocation = vector.new(gps.locate())
 end
 
 local function sortCoordinatesDescending(vec)
@@ -132,6 +134,10 @@ local function moveTo(coords)
     end
 end
 
+local function returnHome()
+    moveTo(homeLocation)
+end
+
 return {
     calibrateHeading = calibrateHeading,
     clearObstructions = clearObstructions,
@@ -147,5 +153,6 @@ return {
     sortCoordinatesDescending = sortCoordinatesDescending,
     encodeAxis = encodeAxis,
     decodeAxis = decodeAxis,
-    moveTo = moveTo
+    moveTo = moveTo,
+    returnHome = returnHome
 }
