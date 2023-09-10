@@ -4,9 +4,7 @@ local inventory = require("inventory")
 
 -- Functions --
 
-local function checkInventory()
-    if not inventory.allSlotsContainItems() then return end
-
+local function storeAllIems()
     local containerName = "kibe:entangled_chest"
     local found, slot = inventory.findItem(containerName)
 
@@ -24,6 +22,11 @@ local function checkInventory()
     end
 
     extendedTurtle.clearObstructionsUp()
+end
+
+local function checkInventory()
+    if not inventory.allSlotsContainItems() then return end
+    storeAllIems();
 end
 
 -- Main Code --
@@ -76,3 +79,5 @@ for i = 1, d, 1 do
     -- write("D 180 \n")
 
 end
+
+storeAllIems()
