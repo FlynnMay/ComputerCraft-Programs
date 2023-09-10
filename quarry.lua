@@ -12,7 +12,7 @@ local function checkInventory()
 
     if not found then return end
 
-    inventory.placeItemUpFromSlotFromSlot(slot)
+    inventory.placeItemUpFromSlot(slot)
     
     for i = 1, 16 do
         turtle.select(i)

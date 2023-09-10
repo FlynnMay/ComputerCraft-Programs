@@ -10,4 +10,4 @@ peripheral.find("modem", rednet.open)
 
 local pos = vector.new(gps.locate())
 
-rednet.send(0, "quarry.lua ".. w .. " " .. l .. " " .. d .. " " .. pos.x .. " " .. pos.y.. " "  .. pos.z)
+rednet.send(0, "quarry.lua ".. w .. " " .. l .. " " .. d .. " " .. pos.x .. " " .. (pos.y - 2) .. " "  .. pos.z)
