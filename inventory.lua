@@ -4,10 +4,12 @@ local extendedTurtle = require("extendedTurtle")
 local function findItem(targetName)
     for i = 1, 16 do
         turtle.select(i)
+        
+        local item = turtle.getItemDetail(1)
 
-        local name, count = turtle.getItemDetail(1)
+        if item ~= nil then return end
 
-        if name ~= nil and name == targetName then
+        if item["name"] == targetName then
             return { true, i }
         end
     end
