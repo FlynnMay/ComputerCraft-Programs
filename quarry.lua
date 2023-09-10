@@ -1,3 +1,9 @@
+-- Requirements --
+local extendedTurtle = require("extendedTurtle")
+local inventory = require("inventory")
+
+-- Functions --
+
 local function checkInventory()
     if not inventory.allSlotsContainItems() then return end
 
@@ -25,9 +31,6 @@ end
 if #arg < 6 then 
     print("Usage: quarry size: <width> <length> <depth> position: <x> <y> <z>");
 end
-
-local extendedTurtle = require("extendedTurtle")
-local inventory = require("inventory")
 
 local w = tonumber(arg[1]);
 local l = tonumber(arg[2]);
