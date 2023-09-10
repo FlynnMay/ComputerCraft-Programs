@@ -27,8 +27,14 @@ local function tableContainsValue(tbl, value)
 end
 
 
-local function createRect(x, z, width, height)
-    return { x = x, z = z, width = width, height = height }
+local function createRect(x, z, width, length)
+    local rect = {} 
+    rect.width = width
+    rect.length = length
+    rect.x = x
+    rect.y = z
+
+    return rect
 end
 
 local function divideRect(n, x, z, width, length)
@@ -75,6 +81,7 @@ local function deploy(pos, w, l, d)
     end
 
     inventory.placeItemUpFromSlot(slot)
+    os.sleep(.4)
     peripheral.call("top", "turnOn")
     -- wait for client to connect to the server
     local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
@@ -133,5 +140,6 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-    deploy(vector.new(subRectangle.x, pos.y, subRectangle.x), subRectangle.width, subRectangle.height, d)
+    write(subRectangle.x .. " " .. pos.y .. " " .. subRectangle.x .. " " .. subRectangle.width .. " " .. subRectangle.height .. " " .. d)
+    deploy(vector.new(subRectangle.x, pos.y, subRectangle.x), subRectangle.width, subRectangle.length, d)
 end
