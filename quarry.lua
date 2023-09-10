@@ -37,6 +37,7 @@ local l = tonumber(arg[2]);
 local d = tonumber(arg[3]);
 local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5]), tonumber(arg[6]))
 
+extendedTurtle.init()
 extendedTurtle.moveTo(startPoint)
 
 local dirToggle = true;
