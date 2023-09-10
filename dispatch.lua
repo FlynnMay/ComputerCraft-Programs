@@ -90,7 +90,7 @@ local function deploy(pos, w, l, d)
     
     -- send away
     local payload = string.format("%d %d %d %d %d %d", w, l, d, pos.x, pos.y, pos.z)
-    print(payload)
+    -- print(payload)
     modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end
 
@@ -105,7 +105,7 @@ local recommendedMaxBlocksPerUnit = 1000
 
 repeat
     local id, msg = rednet.receive()
-    print(("Computer %d sent message %s"):format(id, msg))
+    -- print(("Computer %d sent message %s"):format(id, msg))
 
     if msg ~= nil then
         instrunctions = string.split(msg, ' ')
@@ -133,6 +133,6 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-
-    deploy(vector.new(subRectangle.x, pos.y - 2, subRectangle.z), w, l, d)
+    write(subRectangle.x .. " " .. pos.y .. " " .. subRectangle.z)
+    deploy(vector.new(subRectangle.x, pos.y, subRectangle.z), w, l, d)
 end
