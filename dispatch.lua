@@ -41,14 +41,14 @@ end
 local function deploy(pos, w, l, d)
     -- place turtle
     local found, slot = inventory.findItem("computercraft:turtle_expanded")
-    
+
     if not found then
         print("dispatch requires units!")
         return
     end
 
-    inventory.placeItemUpFromSlot(slot)    
-    
+    inventory.placeItemUpFromSlot(slot)
+
     -- provide fuel
 
     -- provide ender chest
@@ -98,5 +98,5 @@ end
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
 
-    deploy(vector.new(subRectangle.x, pos.y - 2, subRectangle.z), vector.new(w, l, d))
+    deploy(vector.new(subRectangle.x, pos.y - 2, subRectangle.z), w, l, d)
 end

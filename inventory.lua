@@ -62,6 +62,8 @@ local function getTotalItemCount(itemName)
             end
         end
     end
+    
+    return totalFound
 end
 
 return { findItem = findItem, placeItemDownFromSlot = placeItemDownFromSlot, placeItemUpFromSlot = placeItemUpFromSlot,
