@@ -62,8 +62,8 @@ local function divideRect(n, x, z, width, length)
     -- Generate the sub rectangles
     for row = 1, numRows do
         for col = 1, numCols do
-            local subX = x + col * subWidth
-            local subZ = z + row * subLength
+            local subX = x + (col - 1) * subWidth
+            local subZ = z + (row - 1) * subLength
             table.insert(subRectangles, createRect(subX, subZ, subWidth, subLength))
         end
     end
@@ -140,6 +140,6 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-    write(subRectangle.x .. " " .. pos.y .. " " .. subRectangle.x .. " " .. subRectangle.width .. " " .. subRectangle.height .. " " .. d)
+    write(subRectangle.x .. " " .. pos.y .. " " .. subRectangle.x .. " " .. subRectangle.width .. " " .. subRectangle.length .. " " .. d)
     deploy(vector.new(subRectangle.x, pos.y, subRectangle.x), subRectangle.width, subRectangle.length, d)
 end
