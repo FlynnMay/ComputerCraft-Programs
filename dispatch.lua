@@ -89,7 +89,7 @@ local function deploy(pos, w, l, d)
     -- provide ender chest
     
     -- send away
-    local payload = string.format("%d %d %d %d %d %d", pos.x, pos.y, pos.z, w, l, d)
+    local payload = string.format("%d %d %d %d %d %d", w, l, d, pos.x, pos.y, pos.z)
     print(payload)
     modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end

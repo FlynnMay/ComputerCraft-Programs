@@ -8,4 +8,3 @@ modem.transmit(SERVER_PORT, CLIENT_PORT, "Dispatched_Connection_Established")
 local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
 
 shell.run("quarry", msg)
-shell.run("host")
