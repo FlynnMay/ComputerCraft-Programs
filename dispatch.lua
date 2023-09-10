@@ -28,7 +28,7 @@ end
 
 
 local function createRect(x, z, width, height)
-    return { x, z, width, height }
+    return { x = x, z = z, width = width, height = height }
 end
 
 local function divideRect(n, x, z, width, length)
@@ -133,5 +133,5 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-    deploy(vector.new(subRectangle["x"], pos.y, subRectangle["z"]), w, l, d)
+    deploy(vector.new(subRectangle.x, pos.y, subRectangle.x), subRectangle.width, subRectangle.height, d)
 end
