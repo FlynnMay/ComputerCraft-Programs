@@ -1,4 +1,10 @@
+local SERVER_PORT = 1997
+local CLIENT_PORT = 18
+
 local inventory = require("inventory")
+local modem = peripheral.wrap("left")
+modem.open(SERVER_PORT)
+
 
 function string.split(inputString, delimiter)
     local substrings = {}
@@ -69,12 +75,21 @@ local function deploy(pos, w, l, d)
     end
 
     inventory.placeItemUpFromSlot(slot)
+    
+    -- wait for client to connect to the server
+    local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
+
+    if msg ~= "Dispatched_Connection_Established" then
+        print("Client not found")
+        os.exit()
+    end
 
     -- provide fuel
-
+    
     -- provide ender chest
-
+    
     -- send away
+    modem.trasmit(CLIENT_PORT, SERVER_PORT, string.format("%d %d %d %d %d %d", pos.x, pos.y, pos.z, w, l, d))
 
     -- instruct return
 end
