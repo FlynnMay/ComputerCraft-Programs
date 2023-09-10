@@ -1,5 +1,26 @@
 local inventory = require("inventory")
 
+function string.split(inputString, delimiter)
+    local substrings = {}
+    local pattern = "[^" .. delimiter .. "]+"
+    
+    for match in inputString:gmatch(pattern) do
+        table.insert(substrings, match)
+    end
+    
+    return substrings
+end
+
+local function tableContainsValue(tbl, value)
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+
 local function createRect(x, z, width, height)
     return { x, z, width, height }
 end
