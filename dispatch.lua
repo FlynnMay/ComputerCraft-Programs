@@ -9,7 +9,7 @@ local function divideRect(n, x, z, width, length)
 
     if n <= 0 then
         print("cannot divide into 0 rectangles")
-        return nil
+        return subRectangles
     end
 
     if n == 1 then
@@ -86,7 +86,7 @@ local totalBlocksToMine = w * l * d
 local recommendedUnitCount = totalBlocksToMine / recommendedMaxBlocksPerUnit
 local availableUnitCount = inventory.getTotalItemCount("computercraft:turtle_expanded")
 
-local subRectangles = {} | nil
+local subRectangles = {}
 if availableUnitCount > recommendedUnitCount then
     -- Send recommendedUnitCount
     subRectangles = divideRect(recommendedUnitCount, pos.x, pos.z, w, l)
