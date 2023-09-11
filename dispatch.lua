@@ -2,6 +2,7 @@ local SERVER_PORT = 1997
 local CLIENT_PORT = 18
 
 local inventory = require("inventory")
+local extendedTurtle = require("extendedTurtle")
 local modem = peripheral.wrap("left")
 modem.open(SERVER_PORT)
 
@@ -72,8 +73,37 @@ local function divideRect(n, x, z, width, length)
     return subRectangles
 end
 
+local function getDirectionToCoordinate(targetX, targetZ)
+    local currentX, _, currentZ = gps.locate()
+
+    if not currentX then
+        print("GPS signal not found. Unable to determine current position.")
+        return nil
+    end
+
+    local deltaX = targetX - currentX
+    local deltaZ = targetZ - currentZ
+
+    if math.abs(deltaX) > math.abs(deltaZ) then
+        if deltaX < 0 then
+            return 1 -- -x
+        else
+            return 3 -- +x
+        end
+    else
+        if deltaZ < 0 then
+            return 2 -- -z
+        else
+            return 4 -- +z
+        end
+    end
+end
 
 local function deploy(targetPos, w, l, d)
+    -- turn to closest position
+    local desiredHeading = getDirectionToCoordinate(targetPos.x, targetPos.y)
+    extendedTurtle.face(desiredHeading)
+        
     -- place turtle
     local found, slot = inventory.findItem("computercraft:turtle_normal")
 
@@ -82,7 +112,7 @@ local function deploy(targetPos, w, l, d)
         return
     end
 
-    inventory.placeItemUpFromSlot(slot)
+    inventory.placeItemFromSlot(slot)
     os.sleep(.4)
     peripheral.call("top", "turnOn")
     -- wait for client to connect to the server
@@ -106,6 +136,11 @@ end
 -- Main Code --
 
 rednet.open("left")
+
+extendedTurtle.init()
+extendedTurtle.turnRight()
+extendedTurtle.turnRight()
+extendedTurtle.forward()
 
 local command = ""
 local instrunctions = {}
@@ -142,7 +177,7 @@ end
 
 for i = 1, #subRectangles do
     
-    while turtle.detectUp() do
+    while turtle.detect() do
         os.sleep(.3)
     end
     
