@@ -32,7 +32,7 @@ local function createRect(x, z, width, length)
     rect.width = width
     rect.length = length
     rect.x = x
-    rect.y = z
+    rect.z = z
 
     return rect
 end
