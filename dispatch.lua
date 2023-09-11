@@ -141,6 +141,11 @@ else
 end
 
 for i = 1, #subRectangles do
+    
+    while turtle.detectUp() do
+        turtle.sleep(.3)
+    end
+    
     local subRectangle = subRectangles[i]
     deploy(vector.new(subRectangle.x, pos.y, subRectangle.z), subRectangle.width, subRectangle.length, d)
 end
