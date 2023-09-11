@@ -1,39 +1,6 @@
 local trackedHeading = 0
 local homeLocation = vector.new(0,0,0)
 
-local function calibrateHeading()
-    local locOrigin = vector.new(gps.locate(2, false))
-
-    if not turtle.forward() then
-        turtle.dig()
-        turtle.forward()
-    end
-    local locEnding = vector.new(gps.locate(2, false))
-
-    local heading = locEnding - locOrigin
-
-    return ((heading.x + math.abs(heading.x) * 2) + (heading.z + math.abs(heading.z) * 3))
-end
-
-local function clearObstructions()
-    while turtle.detect() do
-        local found, data = turtle.inspect()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
-            turtle.dig();
-        end
-    end
-end
-
-local function clearObstructionsUp()
-    while turtle.detectUp() do
-        local found, data = turtle.inspectUp()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
-            turtle.digUp();
-        end
-    end
-end
 
 local function clearObstructionsDown()
     while turtle.detectDown() do
@@ -71,6 +38,43 @@ local function turnLeft()
     trackedHeading = trackedHeading - 1
     if trackedHeading < 1 then trackedHeading = trackedHeading + 4 end
 end
+
+local function calibrateHeading()
+    local locOrigin = vector.new(gps.locate(2, false))
+
+    -- if not turtle.forward() then
+    --     turtle.dig()
+    --     turtle.forward()
+    -- end
+    forward()
+
+    local locEnding = vector.new(gps.locate(2, false))
+
+    local heading = locEnding - locOrigin
+
+    return ((heading.x + math.abs(heading.x) * 2) + (heading.z + math.abs(heading.z) * 3))
+end
+
+local function clearObstructions()
+    while turtle.detect() do
+        local found, data = turtle.inspect()
+        
+        if not (found and data and data.name == "computercraft:turtle_normal") then
+            turtle.dig();
+        end
+    end
+end
+
+local function clearObstructionsUp()
+    while turtle.detectUp() do
+        local found, data = turtle.inspectUp()
+        
+        if not (found and data and data.name == "computercraft:turtle_normal") then
+            turtle.digUp();
+        end
+    end
+end
+
 
 local function face(encodedAxis)
     local neededRot = encodedAxis - trackedHeading;
