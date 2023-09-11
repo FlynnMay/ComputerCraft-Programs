@@ -115,6 +115,13 @@ local function deploy(targetPos, w, l, d)
     inventory.placeItemFromSlot(slot)
     os.sleep(.4)
     peripheral.call("front", "turnOn")
+    -- provide ender chest
+    local found, slot = inventory.findItem("kibe:entangled_chest")
+
+    if found then
+        turtle.drop(slot)
+    end
+    
     -- wait for client to connect to the server
     local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
 
@@ -125,10 +132,8 @@ local function deploy(targetPos, w, l, d)
 
     -- provide fuel
 
-    -- provide ender chest
-
     -- send away
-    local payload = string.format("%d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z)
+    local payload = string.format("%d %d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z, found)
     print(payload)
     modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end

@@ -60,11 +60,7 @@ end
 
 local function calibrateHeading()
     local locOrigin = vector.new(gps.locate(2, false))
-
-    -- if not turtle.forward() then
-    --     turtle.dig()
-    --     turtle.forward()
-    -- end
+    
     forward()
 
     local locEnding = vector.new(gps.locate(2, false))

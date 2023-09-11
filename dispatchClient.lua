@@ -1,6 +1,6 @@
 local SERVER_PORT = 1997
 local CLIENT_PORT = 18
- 
+
 local function findModem()
     local sides = {"top", "bottom", "front", "back", "left", "right"}
 
@@ -11,7 +11,6 @@ local function findModem()
                 return modem;    
             end
         end
-        
     end
 end
 
