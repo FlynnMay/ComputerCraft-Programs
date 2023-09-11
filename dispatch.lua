@@ -103,7 +103,7 @@ local function deploy(targetPos, w, l, d)
     -- turn to closest position
     local desiredHeading = getDirectionToCoordinate(targetPos.x, targetPos.z)
     extendedTurtle.face(desiredHeading)
-        
+
     -- place turtle
     local found, slot = inventory.findItem("computercraft:turtle_normal")
 
@@ -167,20 +167,20 @@ local recommendedUnitCount = totalBlocksToMine / recommendedMaxBlocksPerUnit
 local availableUnitCount = inventory.getTotalItemCount("computercraft:turtle_normal")
 
 local subRectangles = {}
-if availableUnitCount > recommendedUnitCount then
-    -- Send recommendedUnitCount
-    subRectangles = divideRect(recommendedUnitCount < 1 and 1 or recommendedUnitCount, pos.x, pos.z, w, l)
-else
-    -- Send availableUnitCount
-    subRectangles = divideRect(availableUnitCount, pos.x, pos.z, w, l)
-end
+-- if availableUnitCount > recommendedUnitCount then
+--     -- Send recommendedUnitCount
+--     subRectangles = divideRect(recommendedUnitCount < 1 and 1 or recommendedUnitCount, pos.x, pos.z, w, l)
+-- else
+--     -- Send availableUnitCount
+--     subRectangles = divideRect(availableUnitCount, pos.x, pos.z, w, l)
+-- end
+subRectangles = divideRect(availableUnitCount, pos.x, pos.z, w, l)
 
 for i = 1, #subRectangles do
-    
     while turtle.detect() do
         os.sleep(.3)
     end
-    
+
     local subRectangle = subRectangles[i]
     deploy(vector.new(subRectangle.x, pos.y, subRectangle.z), subRectangle.width, subRectangle.length, d)
 end
