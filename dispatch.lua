@@ -47,7 +47,7 @@ local function divideRect(n, x, z, width, length)
 
     if n == 1 then
         -- Return the starting rectangle if no divisions are required
-        print(string.format("Pos: [x: %d, z: %d] | Size: [w: %d, l: %d]"), x, z, width, length)
+        print(string.format("Pos: [x: %d, z: %d] | Size: [w: %d, l: %d]", x, z, width, length))
         table.insert(subRectangles, createRect(x, z, width, length))
         return subRectangles
     end
@@ -73,7 +73,7 @@ local function divideRect(n, x, z, width, length)
 end
 
 
-local function deploy(pos, w, l, d)
+local function deploy(targetPos, w, l, d)
     -- place turtle
     local found, slot = inventory.findItem("computercraft:turtle_normal")
 
@@ -98,8 +98,8 @@ local function deploy(pos, w, l, d)
     -- provide ender chest
 
     -- send away
-    local payload = string.format("%d %d %d %d %d %d", w, l, d, pos.x, pos.y, pos.z)
-    -- print(payload)
+    local payload = string.format("%d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z)
+    print(payload)
     modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end
 
@@ -142,5 +142,5 @@ end
 
 for i = 1, #subRectangles do
     local subRectangle = subRectangles[i]
-    deploy(vector.new(subRectangle.x, pos.y, subRectangle.y), subRectangle.width, subRectangle.height, d)
+    deploy(vector.new(subRectangle.x, pos.y, subRectangle.z), subRectangle.width, subRectangle.length, d)
 end
