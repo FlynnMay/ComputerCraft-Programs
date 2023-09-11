@@ -101,7 +101,7 @@ end
 
 local function deploy(targetPos, w, l, d)
     -- turn to closest position
-    local desiredHeading = getDirectionToCoordinate(targetPos.x, targetPos.y)
+    local desiredHeading = getDirectionToCoordinate(targetPos.x, targetPos.z)
     extendedTurtle.face(desiredHeading)
         
     -- place turtle
@@ -145,7 +145,7 @@ extendedTurtle.forward()
 local command = ""
 local instrunctions = {}
 local validCommands = { "dispatch" }
-local recommendedMaxBlocksPerUnit = 1000
+local recommendedMaxBlocksPerUnit = 100
 
 repeat
     local id, msg = rednet.receive()
