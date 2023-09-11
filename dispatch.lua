@@ -134,7 +134,7 @@ local function deploy(targetPos, w, l, d)
     -- provide fuel
 
     -- send away
-    local payload = string.format("%d %d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z, found)
+    local payload = string.format("%d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z)
     print(payload)
     modem.transmit(CLIENT_PORT, SERVER_PORT, payload)
 end
