@@ -119,7 +119,8 @@ local function deploy(targetPos, w, l, d)
     local found, slot = inventory.findItem("kibe:entangled_chest")
 
     if found then
-        turtle.drop(slot)
+        turtle.select(slot)
+        turtle.drop(1)
     end
     
     -- wait for client to connect to the server
