@@ -1,6 +1,25 @@
 local trackedHeading = 0
 local homeLocation = vector.new(0,0,0)
 
+local function clearObstructions()
+    while turtle.detect() do
+        local found, data = turtle.inspect()
+        
+        if not (found and data and data.name == "computercraft:turtle_normal") then
+            turtle.dig();
+        end
+    end
+end
+
+local function clearObstructionsUp()
+    while turtle.detectUp() do
+        local found, data = turtle.inspectUp()
+        
+        if not (found and data and data.name == "computercraft:turtle_normal") then
+            turtle.digUp();
+        end
+    end
+end
 
 local function clearObstructionsDown()
     while turtle.detectDown() do
@@ -54,27 +73,6 @@ local function calibrateHeading()
 
     return ((heading.x + math.abs(heading.x) * 2) + (heading.z + math.abs(heading.z) * 3))
 end
-
-local function clearObstructions()
-    while turtle.detect() do
-        local found, data = turtle.inspect()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
-            turtle.dig();
-        end
-    end
-end
-
-local function clearObstructionsUp()
-    while turtle.detectUp() do
-        local found, data = turtle.inspectUp()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
-            turtle.digUp();
-        end
-    end
-end
-
 
 local function face(encodedAxis)
     local neededRot = encodedAxis - trackedHeading;
