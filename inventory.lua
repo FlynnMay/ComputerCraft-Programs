@@ -5,10 +5,10 @@ local function findItem(targetName)
     for i = 1, 16 do      
         local item = turtle.getItemDetail(i)
 
-        if item == nil then return end
-
-        if item["name"] == targetName then
-            return true, i
+        if item ~= nil then
+            if item["name"] == targetName then
+                return true, i
+            end
         end
     end
     return false, 0
