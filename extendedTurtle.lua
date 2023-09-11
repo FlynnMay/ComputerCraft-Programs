@@ -19,7 +19,7 @@ local function clearObstructions()
     while turtle.detect() do
         local found, data = turtle.inspect()
         
-        if not (found and data.entity and data.entity.name == "computercraft:turtle_normal") then
+        if not (found and data and data.name == "computercraft:turtle_normal") then
             turtle.dig();
         end
     end
@@ -29,7 +29,7 @@ local function clearObstructionsUp()
     while turtle.detectUp() do
         local found, data = turtle.inspectUp()
         
-        if not (found and data.entity and data.entity.name == "computercraft:turtle_normal") then
+        if not (found and data and data.name == "computercraft:turtle_normal") then
             turtle.digUp();
         end
     end
@@ -39,7 +39,7 @@ local function clearObstructionsDown()
     while turtle.detectDown() do
         local found, data = turtle.inspectDown()
         
-        if not (found and data.entity and data.entity.name == "computercraft:turtle_normal") then
+        if not (found and data and data.name == "computercraft:turtle_normal") then
             turtle.digDown();
         end
     end
