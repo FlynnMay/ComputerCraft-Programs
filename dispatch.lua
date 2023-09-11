@@ -37,72 +37,41 @@ local function createRect(x, z, width, length)
     return rect
 end
 
--- local function divideRect(n, x, z, width, length)
---     local subRectangles = {}
-
---     if n <= 0 then
---         print("cannot divide into 0 rectangles")
---         return subRectangles
---     end
-
---     if n == 1 then
---         -- Return the starting rectangle if no divisions are required
---         table.insert(subRectangles, createRect(x, z, width, length))
---         return subRectangles
---     end
-
---     -- Calculate the number of rows and colums for the sub rectangles
---     local numRows = math.sqrt(n)
---     local numCols = n / numRows
-
---     -- Calculate the width and height of each sub rectangle
---     local subWidth = width / numCols
---     local subLength = length / numRows
-
---     -- Generate the sub rectangles
---     for row = 1, numRows do
---         for col = 1, numCols do
---             local subX = x + (col - 1) * subWidth
---             local subZ = z + (row - 1) * subLength
---             table.insert(subRectangles, createRect(subX, subZ, subWidth, subLength))
---         end
---     end
-
---     return subRectangles
--- end
-
-function divideRect(n, startX, startY, width, height)
-    subRectangles = {}
+local function divideRect(n, x, z, width, length)
+    local subRectangles = {}
 
     if n <= 0 then
-        return subRectangles -- No sub-rectangles to generate
-    end
-
-    if n == 1 then
-        -- Special case: Only one sub-rectangle, which is the entire rectangle
-        table.insert(subRectangles, { x = startX, y = startY, width = width, height = height })
+        print("cannot divide into 0 rectangles")
         return subRectangles
     end
 
-    -- Calculate the number of rows and columns for the sub-rectangles
-    numRows = math.sqrt(n)
-    numCols = n / numRows
+    if n == 1 then
+        -- Return the starting rectangle if no divisions are required
+        print(string.format("Pos: [x: %d, z: %d] | Size: [w: %d, l: %d]"), x, z, width, length)
+        table.insert(subRectangles, createRect(x, z, width, length))
+        return subRectangles
+    end
 
-    -- Calculate the width and height of each sub-rectangle
-    subWidth = width / numCols
-    subHeight = height / numRows
+    -- Calculate the number of rows and colums for the sub rectangles
+    local numRows = math.sqrt(n)
+    local numCols = n / numRows
 
-    -- Generate the sub-rectangles
+    -- Calculate the width and height of each sub rectangle
+    local subWidth = width / numCols
+    local subLength = length / numRows
+
+    -- Generate the sub rectangles
     for row = 1, numRows do
         for col = 1, numCols do
-            x = startX + (col - 1) * subWidth
-            y = startY + (row - 1) * subHeight
-            table.insert(subRectangles, { x = x, y = y, width = subWidth, height = subHeight })
+            local subX = x + (col - 1) * subWidth
+            local subZ = z + (row - 1) * subLength
+            table.insert(subRectangles, createRect(subX, subZ, subWidth, subLength))
         end
     end
 
     return subRectangles
 end
+
 
 local function deploy(pos, w, l, d)
     -- place turtle
