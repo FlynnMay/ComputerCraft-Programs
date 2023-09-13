@@ -9,5 +9,5 @@ while true do
         print("Location: " .. message)
         redstone.setOutput("bottom", false)
         print("door found")
-    else
+    end
 end
