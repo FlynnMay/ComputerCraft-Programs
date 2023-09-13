@@ -1,19 +1,15 @@
-local modem = peripheral.wrap("top")
-local SERVER_PORT = 1876
-local CLIENT_PORT = 43
-
-modem.open(SERVER_PORT)
+rednet.open("top")
 
 
 while true do
-    modem.transmit(CLIENT_PORT, SERVER_PORT, "ping")
+    local senderID, message, protocol = rednet.receive()
 
-    local event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
-    print("message")
-    if message == "pong" then
-        redstone.setOutput("bottom", 0)
+    if protocol == "location" then
+        print("Location: " .. message)
+        redstone.setOutput("bottom", true)
     else
-        redstone.setOutput("bottom", 1)
+        redstone.setOutput("bottom", false)
     end
+
     os.sleep(.4)
 end

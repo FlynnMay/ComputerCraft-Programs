@@ -1,15 +1,18 @@
-local modem = peripheral.wrap("back")
-local SERVER_PORT = 1876
-local CLIENT_PORT = 43
+if #arg < 1 then
+    print("Usage: doorPhone <doorComputerID>")
+end 
 
-modem.open(CLIENT_PORT)
+local doorId = arg[1];
+
+rednet.open("back")
 
 while true do
-    local event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+    -- Get input from the player or the environment
+    local x, y, z = gps.locate()
+    local payload = string.format("%d %d %d", x, y, z)
     
-    if message == "ping" then
-        modem.transmit(SERVER_PORT, CLIENT_PORT, "pong")
-    end
-    print(message)
-    
-end
+    -- Send the input to the main computer
+    rednet.send(doorId, "location", payload)
+
+    os.sleep(.4)
+  end
