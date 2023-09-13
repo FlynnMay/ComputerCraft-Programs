@@ -2,7 +2,7 @@ if #arg < 1 then
     print("Usage: doorPhone <doorComputerID>")
 end 
 
-local doorId = arg[1];
+local doorId = tonumber(arg[1])
 
 rednet.open("back")
 
