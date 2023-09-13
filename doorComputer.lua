@@ -3,15 +3,11 @@ rednet.open("top")
 
 while true do
     local senderID, message, protocol = rednet.receive()
+    redstone.setOutput("bottom", true)
 
     if protocol == "location" then
         print("Location: " .. message)
-        redstone.setOutput("bottom", true)
+        redstone.setOutput("bottom", false)
         print("door found")
     else
-        redstone.setOutput("bottom", false)
-        print("door not found")
-    end
-
-    os.sleep(.4)
 end
