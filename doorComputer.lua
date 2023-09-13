@@ -6,9 +6,10 @@ modem.open(SERVER_PORT)
 
 
 while true do
-    modem.transmit(CLIENT_PORT, SERVER_PORT, "pong")
+    modem.transmit(CLIENT_PORT, SERVER_PORT, "ping")
 
     local event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+    print("message")
     if message == "pong" then
         redstone.setOutput("bottom", 0)
     else
