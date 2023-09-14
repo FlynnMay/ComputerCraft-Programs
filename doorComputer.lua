@@ -38,7 +38,7 @@ local outputDir = arg[3]
 local keyHolders = {}
 
 for i = 4, #arg, 1 do
-    keyHolders.insert(arg[i])
+    table.insert(keyHolders, arg[i])
 end
 
 rednet.open("top")
