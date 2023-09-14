@@ -1,8 +1,8 @@
 if #arg < 1 then
-    print("Usage: doorPhone <doorComputerID>")
+    print("Usage: doorPhone <trackingServerId>")
 end 
 
-local doorId = tonumber(arg[1])
+local trackingServerId = tonumber(arg[1])
 
 rednet.open("back")
 
@@ -12,5 +12,5 @@ while true do
     local payload = string.format("%d %d %d", x, y, z)
     
     -- Send the input to the main computer
-    rednet.send(doorId, payload, "location")
-  end
+    rednet.send(trackingServerId, payload, "location")
+end
