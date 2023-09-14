@@ -29,7 +29,7 @@ while true do
     local senderID, message, protocol = rednet.receive()
     local arguments = string.split(message, ' ')
     local clientPos = stringTableToVector(arguments)
-    local distance = vector.length(pos - clientPos)
+    local distance = (pos - clientPos).length()
     
     redstone.setOutput(outputDir, distance <= openThreshold)
 end
