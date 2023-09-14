@@ -19,7 +19,7 @@ function keyHoldersToString(keyHolders)
     for _, value in ipairs(keyHolders) do
         clients = clients .. " " .. value
     end
-    
+
     return clients
 end
 
@@ -47,20 +47,20 @@ local pos = vector.new(gps.locate())
 while true do
     rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
-    local senderID, message, protocol;
-    repeat
-        senderID, message, protocol = rednet.receive()
-    until senderID == trackingServerID and protocol == "returned_values"
-    
-    local holderPositions = string.split(message, ",")
+    local senderID, message, protocol = rednet.receive()
     local redstoneEnabled = false
-    
-    for i, keyHolderPosition in ipairs(holderPositions) do
-        if getDistance(stringTableToVector(string.split(keyHolderPosition, " ")), pos) <= openThreshold then
-            redstoneEnabled = true
-            break
+    if senderID == trackingServerID and protocol == "returned_values" then
+        local holderPositions = string.split(message, ",")
+
+        for i, keyHolderPosition in ipairs(holderPositions) do
+            local distance = getDistance(stringTableToVector(string.split(keyHolderPosition, " ")), pos)
+            print(distance)
+            if distance <= openThreshold then
+                redstoneEnabled = true
+                break
+            end
         end
     end
-    
+
     redstone.setOutput(outputDir, redstoneEnabled)
 end
