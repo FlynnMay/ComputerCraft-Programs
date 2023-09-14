@@ -18,18 +18,21 @@ local function setSendersPositionInTable(senderID, message, positionTable)
     local clientPos = stringTableToVector(arguments)
     positionTable[senderID] = clientPos
 
-    print(string.format("Location Updated: User[%d] Positon[%d]", senderID, clientPos))
+    print(string.format("Location Updated: User[%d] Positon[%d %d %d]", senderID, clientPos.x, clientPos.y, clientPos.z))
 end
 
 local function sendUsersPositionInTable(returnID, message, positionTable)
     local clientsToGet = string.split(message, ' ')
     local payload = ""
-    
+
     for _, client in ipairs(clientsToGet) do
-        payload = payload .. "," ..  positionTable[tonumber(client)]
+        local cPos = positionTable[tonumber(client)]
+        if cPos ~= nil then
+            payload = payload .. "," .. string.format("%d %d %d", cPos.x, cPos.y, cPos.z)
+        end
     end
-    
-     rednet.send(returnID, payload, "returned_values")
+
+    rednet.send(returnID, payload, "returned_values")
 end
 
 

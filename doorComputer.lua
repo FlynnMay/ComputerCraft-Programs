@@ -45,7 +45,7 @@ rednet.open("top")
 local pos = vector.new(gps.locate())
 
 while true do
-    rednet.send(trackingServerID, keyHoldersToString(), "check")
+    rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
     local senderID, message, protocol;
     repeat
