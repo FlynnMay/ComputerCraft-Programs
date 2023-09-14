@@ -33,13 +33,6 @@ local function sendUsersPositionInTable(returnID, message, positionTable)
 end
 
 
--- Main Code --
-if #arg < 1 then
-    print("Usage: doorComputer <open threshold> <power output dir>")
-end
-
-local openThreshold = tonumber(arg[1])
-local outputDir = arg[2]
 playerPositions = {}
 
 rednet.open("top")
