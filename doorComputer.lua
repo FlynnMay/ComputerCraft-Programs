@@ -27,17 +27,22 @@ local function getDistance(vecA, vecB)
     return (vecA - vecB):length()
 end
 
+local function getDirectionToCoordinate(vecA, vecB)
+    return (vecA - vecB):normalize()
+end
+
 -- Main Code --
 if #arg < 1 then
-    print("Usage: doorComputer <tracking server ID> <open threshold> <power output dir> <...ID's to track>")
+    print("Usage: doorComputer <tracking server ID> <open threshold> <power output dir> <detectDirX> <detectDirY> <detectDirZ> <...ID's to track>")
 end
 
 local trackingServerID = tonumber(arg[1])
 local openThreshold = tonumber(arg[2])
 local outputDir = arg[3]
+local detectDir = vector.new(tonumber(arg[4]),tonumber(arg[5]), tonumber(arg[6]))
 local keyHolders = {}
 
-for i = 4, #arg, 1 do
+for i = 7, #arg, 1 do
     table.insert(keyHolders, arg[i])
 end
 
@@ -47,15 +52,16 @@ local pos = vector.new(gps.locate())
 while true do
     rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
-    local senderID, message, protocol = rednet.receive()
+    local senderID, message, protocol = rednet.receive(nil, 1)
     local redstoneEnabled = false
     if senderID == trackingServerID and protocol == "returned_values" then
         local holderPositions = string.split(message, ",")
 
         for i, keyHolderPosition in ipairs(holderPositions) do
-            local distance = getDistance(stringTableToVector(string.split(keyHolderPosition, " ")), pos)
-            print(distance)
-            if distance <= openThreshold then
+            local target = stringTableToVector(string.split(keyHolderPosition, " "))
+            local distance = getDistance(target, pos)
+            local dirToTarget = getDirectionToCoordinate(target, pos);
+            if distance <= openThreshold and dirToTarget:dot(detectDir) > 0.5 then
                 redstoneEnabled = true
                 break
             end
