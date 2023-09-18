@@ -59,7 +59,7 @@ while true do
     rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
     local senderID, message, protocol = rednet.receive(nil, 1)
-    local redstoneEnabled = false
+    local pulseEnabled = false
 
     if senderID == trackingServerID and protocol == "returned_values" then
         local holderPositions = string.split(message, ",")
@@ -72,31 +72,25 @@ while true do
             -- Check if the player entered the zone
             if distance <= openThreshold and dirToTarget:dot(detectDir) > 0.5 then
                 if playerStates[i] == "outside" then
-                    redstoneEnabled = true
                     playerStates[i] = "inside"
+                    pulseEnabled = true
                 end
             else
                 -- Check if the player left the zone
                 if playerStates[i] == "inside" then
-                    redstoneEnabled = true
                     playerStates[i] = "outside"
+                    pulseEnabled = true
                 end
             end
         end
     end
 
-    -- Adjust the redstone output based on whether a player entered or left
-    if redstoneEnabled then
-        -- Emit a pulse of different strength based on the event (enter or leave)
-        if playerStates[i] == "inside" then
-            redstone.setOutput(outputDir, true)  -- Emit a pulse when a player enters
-            os.sleep(0.5)  -- Adjust the duration of the pulse as needed
-            redstone.setOutput(outputDir, false)
-        else
-            redstone.setOutput(outputDir, true)  -- Emit a different pulse when a player leaves
-            os.sleep(1.0)  -- Adjust the duration of the pulse as needed
-            redstone.setOutput(outputDir, false)
-        end
+    if pulseEnabled then
+        print("Pulse enabled")
+        redstone.setOutput(outputDir, true)
+        os.sleep(0.5)  -- Adjust the duration of the pulse as needed
+        redstone.setOutput(outputDir, false)
+        print("Pulse disabled")
     else
         redstone.setOutput(outputDir, false)
     end
