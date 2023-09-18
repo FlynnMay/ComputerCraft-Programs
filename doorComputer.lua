@@ -74,12 +74,14 @@ while true do
                 if playerStates[i] == "outside" then
                     playerStates[i] = "inside"
                     pulseEnabled = true
+                    print("Player entered the zone.")
                 end
             else
                 -- Check if the player left the zone
                 if playerStates[i] == "inside" then
                     playerStates[i] = "outside"
                     pulseEnabled = true
+                    print("Player left the zone.")
                 end
             end
         end
