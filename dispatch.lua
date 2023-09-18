@@ -27,21 +27,22 @@ local function tableContainsValue(tbl, value)
     return false
 end
 
-
-local function createRect(x, z, width, length)
-    local rect = {}
-    rect.width = width
-    rect.length = length
-    rect.x = x
-    rect.z = z
-
-    return rect
+-- Round a number to the nearest integer
+local function round(num)
+    return math.floor(num + 0.5)
 end
 
+-- Function to create a rectangle with integer values
+local function createRect(x, z, width, length)
+    return { x = round(x), z = round(z), width = round(width), length = round(length) }
+end
+
+
+-- Function to create a split rectangle with integer values
 local function splitRect(x, z, width, length)
     local horizontal = width >= length
-    local nw = horizontal and width / 2 or width
-    local nl = horizontal and length or length / 2
+    local nw = horizontal and round(width / 2) or width
+    local nl = horizontal and length or round(length / 2)
 
     local a = createRect(x, z, nw, nl)
     local b = createRect(
@@ -54,6 +55,7 @@ local function splitRect(x, z, width, length)
     return { a, b }
 end
 
+-- Function to create splits with integer values
 local function createSplits(n, rects)
     if #rects >= n then return rects end
 
