@@ -109,16 +109,17 @@ local function deploy(targetPos, w, l, d)
     end
 
     inventory.placeItemFromSlot(slot)
-    os.sleep(.4)
-    peripheral.call("front", "turnOn")
-    -- provide ender chest
     
+    -- provide ender chest
     found, slot = inventory.findItem("kibe:entangled_chest")
-
+    
     if found then
         turtle.select(slot)
         turtle.drop(1)
     end
+    
+    os.sleep(.4)
+    peripheral.call("front", "turnOn")
 
     -- wait for client to connect to the server
     local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
