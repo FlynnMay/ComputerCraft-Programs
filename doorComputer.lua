@@ -46,6 +46,7 @@ for i = 7, #arg, 1 do
     table.insert(keyHolders, arg[i])
 end
 
+local pos = vector.new(gps.locate())
 -- Define the state table to track player presence
 local playerStates = {}
 
