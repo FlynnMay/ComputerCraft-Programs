@@ -38,10 +38,10 @@ local function createRect(x, z, width, length)
     return rect
 end
 
-local function splitRect(x, z, rwidth, rlength)
-    local horizontal = rwidth >= rlength
-    local nw = horizontal and rwidth / 2 or rwidth
-    local nl = horizontal and rlength or rlength / 2
+local function splitRect(x, z, width, length)
+    local horizontal = width >= length
+    local nw = horizontal and width / 2 or width
+    local nl = horizontal and length or length / 2
 
     local a = createRect(x, z, nw, nl)
     local b = createRect(
@@ -58,7 +58,7 @@ local function createSplits(n, rects)
     if #rects >= n then return rects end
 
     local current = rects[1]
-    local newRects = splitRect(current.x, current.z, current.rwidth, current.rlength)
+    local newRects = splitRect(current.x, current.z, current.width, current.length)
     table.remove(rects, 1)
     for _, rect in ipairs(newRects) do
         table.insert(rects, rect)
