@@ -46,27 +46,57 @@ for i = 7, #arg, 1 do
     table.insert(keyHolders, arg[i])
 end
 
-rednet.open("top")
-local pos = vector.new(gps.locate())
+-- Define the state table to track player presence
+local playerStates = {}
+
+-- Set the initial state for all tracked players to "outside"
+for _, playerID in ipairs(keyHolders) do
+    playerStates[playerID] = "outside"
+end
 
 while true do
     rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
     local senderID, message, protocol = rednet.receive(nil, 1)
     local redstoneEnabled = false
+
     if senderID == trackingServerID and protocol == "returned_values" then
         local holderPositions = string.split(message, ",")
 
         for i, keyHolderPosition in ipairs(holderPositions) do
             local target = stringTableToVector(string.split(keyHolderPosition, " "))
             local distance = getDistance(target, pos)
-            local dirToTarget = getDirectionToCoordinate(target, pos);
+            local dirToTarget = getDirectionToCoordinate(target, pos)
+
+            -- Check if the player entered the zone
             if distance <= openThreshold and dirToTarget:dot(detectDir) > 0.5 then
-                redstoneEnabled = true
-                break
+                if playerStates[i] == "outside" then
+                    redstoneEnabled = true
+                    playerStates[i] = "inside"
+                end
+            else
+                -- Check if the player left the zone
+                if playerStates[i] == "inside" then
+                    redstoneEnabled = true
+                    playerStates[i] = "outside"
+                end
             end
         end
     end
 
-    redstone.setOutput(outputDir, redstoneEnabled)
+    -- Adjust the redstone output based on whether a player entered or left
+    if redstoneEnabled then
+        -- Emit a pulse of different strength based on the event (enter or leave)
+        if playerStates[i] == "inside" then
+            redstone.setOutput(outputDir, true)  -- Emit a pulse when a player enters
+            os.sleep(0.5)  -- Adjust the duration of the pulse as needed
+            redstone.setOutput(outputDir, false)
+        else
+            redstone.setOutput(outputDir, true)  -- Emit a different pulse when a player leaves
+            os.sleep(1.0)  -- Adjust the duration of the pulse as needed
+            redstone.setOutput(outputDir, false)
+        end
+    else
+        redstone.setOutput(outputDir, false)
+    end
 end
