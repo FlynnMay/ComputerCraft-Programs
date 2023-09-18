@@ -112,7 +112,8 @@ local function deploy(targetPos, w, l, d)
     os.sleep(.4)
     peripheral.call("front", "turnOn")
     -- provide ender chest
-    local found, slot = inventory.findItem("kibe:entangled_chest")
+    
+    found, slot = inventory.findItem("kibe:entangled_chest")
 
     if found then
         turtle.select(slot)
