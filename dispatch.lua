@@ -38,39 +38,33 @@ local function createRect(x, z, width, length)
     return rect
 end
 
-local function divideRect(n, x, z, width, length)
-    local subRectangles = {}
+local function splitRect(x, z, rwidth, rlength)
+    local horizontal = rwidth >= rlength
+    local nw = horizontal and rwidth / 2 or rwidth
+    local nl = horizontal and rlength or rlength / 2
 
-    if n <= 0 then
-        print("cannot divide into 0 rectangles")
-        return subRectangles
+    local a = createRect(x, z, nw, nl)
+    local b = createRect(
+        x + (horizontal and nw or 0),
+        z + (horizontal and 0 or nl),
+        nw,
+        nl
+    )
+
+    return { a, b }
+end
+
+local function createSplits(n, rects)
+    if #rects >= n then return rects end
+
+    local current = rects[1]
+    local newRects = splitRect(current.x, current.z, current.rwidth, current.rlength)
+    table.remove(rects, 1)
+    for _, rect in ipairs(newRects) do
+        table.insert(rects, rect)
     end
 
-    if n == 1 then
-        -- Return the starting rectangle if no divisions are required
-        print(string.format("Pos: [x: %d, z: %d] | Size: [w: %d, l: %d]", x, z, width, length))
-        table.insert(subRectangles, createRect(x, z, width, length))
-        return subRectangles
-    end
-
-    -- Calculate the number of rows and colums for the sub rectangles
-    local numRows = math.sqrt(n)
-    local numCols = n / numRows
-
-    -- Calculate the width and height of each sub rectangle
-    local subWidth = width / numCols
-    local subLength = length / numRows
-
-    -- Generate the sub rectangles
-    for row = 1, numRows do
-        for col = 1, numCols do
-            local subX = x + (col - 1) * subWidth
-            local subZ = z + (row - 1) * subLength
-            table.insert(subRectangles, createRect(subX, subZ, subWidth, subLength))
-        end
-    end
-
-    return subRectangles
+    return createSplits(n, rects)
 end
 
 local function getDirectionToCoordinate(targetX, targetZ)
@@ -122,7 +116,7 @@ local function deploy(targetPos, w, l, d)
         turtle.select(slot)
         turtle.drop(1)
     end
-    
+
     -- wait for client to connect to the server
     local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
 
@@ -180,7 +174,7 @@ local subRectangles = {}
 --     -- Send availableUnitCount
 --     subRectangles = divideRect(availableUnitCount, pos.x, pos.z, w, l)
 -- end
-subRectangles = divideRect(availableUnitCount, pos.x, pos.z, w, l)
+subRectangles = createSplits(availableUnitCount, { createRect(pos.x, pos.z, w, l) })
 
 for i = 1, #subRectangles do
     while turtle.detect() do

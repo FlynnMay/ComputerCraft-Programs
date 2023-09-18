@@ -16,6 +16,7 @@ end
 local function setSendersPositionInTable(senderID, message, positionTable)
     local arguments = string.split(message, ' ')
     local clientPos = stringTableToVector(arguments)
+    
     positionTable[senderID] = clientPos
 
     print(string.format("Location Updated: User[%d] Positon[%d %d %d]", senderID, clientPos.x, clientPos.y, clientPos.z))
