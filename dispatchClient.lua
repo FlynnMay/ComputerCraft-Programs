@@ -21,4 +21,5 @@ modem.open(CLIENT_PORT)
 modem.transmit(SERVER_PORT, CLIENT_PORT, "Dispatched_Connection_Established")
 local event, side, senderChannel, replyChannel, msg, distance = os.pullEvent("modem_message")
 
+shell.run("refuel", "all")
 shell.run("quarry", msg)
