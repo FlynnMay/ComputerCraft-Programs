@@ -46,54 +46,27 @@ for i = 7, #arg, 1 do
     table.insert(keyHolders, arg[i])
 end
 
+rednet.open("top")
 local pos = vector.new(gps.locate())
--- Define the state table to track player presence
-local playerStates = {}
-
--- Set the initial state for all tracked players to "outside"
-for _, playerID in ipairs(keyHolders) do
-    playerStates[playerID] = "outside"
-end
 
 while true do
     rednet.send(trackingServerID, keyHoldersToString(keyHolders), "check")
 
     local senderID, message, protocol = rednet.receive(nil, 1)
-    local pulseEnabled = false
-
+    local redstoneEnabled = false
     if senderID == trackingServerID and protocol == "returned_values" then
         local holderPositions = string.split(message, ",")
 
         for i, keyHolderPosition in ipairs(holderPositions) do
             local target = stringTableToVector(string.split(keyHolderPosition, " "))
             local distance = getDistance(target, pos)
-            local dirToTarget = getDirectionToCoordinate(target, pos)
-
-            -- Check if the player entered the zone
+            local dirToTarget = getDirectionToCoordinate(target, pos);
             if distance <= openThreshold and dirToTarget:dot(detectDir) > 0.5 then
-                if playerStates[i] == "outside" then
-                    playerStates[i] = "inside"
-                    pulseEnabled = true
-                    print("Player entered the zone.")
-                end
-            else
-                -- Check if the player left the zone
-                if playerStates[i] == "inside" then
-                    playerStates[i] = "outside"
-                    pulseEnabled = true
-                    print("Player left the zone.")
-                end
+                redstoneEnabled = true
+                break
             end
         end
     end
 
-    if pulseEnabled then
-        print("Pulse enabled")
-        redstone.setOutput(outputDir, true)
-        os.sleep(0.5)  -- Adjust the duration of the pulse as needed
-        redstone.setOutput(outputDir, false)
-        print("Pulse disabled")
-    else
-        redstone.setOutput(outputDir, false)
-    end
+    redstone.setOutput(outputDir, redstoneEnabled)
 end

@@ -81,3 +81,5 @@ for i = 1, d, 1 do
 end
 
 storeAllIems()
+
+extendedTurtle.returnHome()

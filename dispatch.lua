@@ -95,6 +95,62 @@ local function getDirectionToCoordinate(targetX, targetZ)
     end
 end
 
+-- may have borrowed fom michael reeves, got lazy on the math
+function calculateFuel(travel, digSize, fuelType)
+    local currX, currY, currZ = gps.locate()
+    local xDiff, yDiff, zDiff = travel.x - currX, travel.y - currY, travel.z - currZ
+ 
+    local volume = digSize.x * digSize.y * digSize.z
+    local travelDistance = (math.abs(xDiff) + math.abs(yDiff) + math.abs(zDiff)) * 2
+ 
+    local totalFuel = volume + travelDistance
+    print(string.format( "total steps: %d", totalFuel))
+ 
+    if(fuelType == "minecraft:coal") then
+        totalFuel = totalFuel / 80
+    elseif(fuelType == "minecraft:coal_block") then
+        totalFuel = totalFuel / 800
+    else
+        print("INVALID FUEL SOURCE")
+        os.exit(1)
+    end
+ 
+    return math.floor(totalFuel) + 10 -- add an extra 10 for overflow
+end
+
+local function isItemMatching(itemName)
+    local currentItem = turtle.getItemDetail()
+    return currentItem and currentItem.name == itemName
+end
+
+-- Function to drop the specified amount of items
+local function dropItem(amount, itemName)
+    local remainingQuantity = desiredQuantity
+
+    for slot = 1, 16 do
+        turtle.select(slot) -- Select the current slot
+
+        if isItemMatching(itemName) then
+            local itemCount = turtle.getItemCount() -- Get the count of items in the current slot
+
+            if itemCount > 0 then
+                local dropCount = math.min(itemCount, remainingQuantity)
+                turtle.drop(dropCount) -- Drop the specified amount of items from the current slot
+                remainingQuantity = remainingQuantity - dropCount
+            end
+        end
+
+        if remainingQuantity <= 0 then
+            break -- Stop when the desired quantity is reached
+        end
+    end
+
+    -- If there are still items left to drop, put them back in the Turtle's inventory
+    if remainingQuantity > 0 then
+        print("Insufficient items to drop the desired quantity.")
+    end
+end
+
 local function deploy(targetPos, w, l, d)
     -- turn to closest position
     local desiredHeading = getDirectionToCoordinate(targetPos.x, targetPos.z)
@@ -117,6 +173,9 @@ local function deploy(targetPos, w, l, d)
         turtle.select(slot)
         turtle.drop(1)
     end
+
+    -- provide fuel
+    dropItem(calculateFuel(targetPos, vector.new(w, d, l), "minecraft:coal"), "minecraft:coal")
     
     os.sleep(.4)
     peripheral.call("front", "turnOn")
@@ -128,8 +187,6 @@ local function deploy(targetPos, w, l, d)
         print("Client not found")
         os.exit()
     end
-
-    -- provide fuel
 
     -- send away
     local payload = string.format("%d %d %d %d %d %d", w, l, d, targetPos.x, targetPos.y, targetPos.z)
