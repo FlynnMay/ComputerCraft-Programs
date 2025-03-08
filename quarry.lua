@@ -33,13 +33,21 @@ end
 -- Main Code --
 
 if #arg < 6 then 
-    print("Usage: quarry size: <width> <length> <depth> position: <x> <y> <z>");
+    print("Usage: quarry size: <width> <length> <depth> position: <x> <y> <z> blacklist inventory (optional): <boolean>");
 end
 
 local w = tonumber(arg[1]);
 local l = tonumber(arg[2]);
 local d = tonumber(arg[3]);
 local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5]), tonumber(arg[6]))
+
+local blacklistInventory = false
+if #arg < 7 then blacklistInventory = arg[7] == "true" end
+
+if blacklistInventory then
+    inventory.registerInventoryAsBlacklistItems()
+    inventory.dropBlacklistedItems()
+end
 
 extendedTurtle.init()
 extendedTurtle.moveTo(startPoint)
