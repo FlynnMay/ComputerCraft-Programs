@@ -25,6 +25,7 @@ local function storeAllIems()
 end
 
 local function checkInventory()
+    inventory.dropBlacklistedItems()
     if not inventory.allSlotsContainItems() then return end
     storeAllIems();
 end
