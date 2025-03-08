@@ -42,7 +42,7 @@ local d = tonumber(arg[3]);
 local startPoint = vector.new(tonumber(arg[4]), tonumber(arg[5]), tonumber(arg[6]))
 
 local blacklistInventory = false
-if #arg < 7 then blacklistInventory = arg[7] == "true" end
+if #arg >= 7 then blacklistInventory = arg[7] == "true" end
 
 if blacklistInventory then
     inventory.registerInventoryAsBlacklistItems()

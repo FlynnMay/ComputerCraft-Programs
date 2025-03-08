@@ -84,7 +84,7 @@ local function dropBlacklistedItems()
     for i = 1, 16 do
         local item = turtle.getItemDetail(i)
         
-        if item == nil then
+        if item ~= nil then
             print("Checking: " + item["name"])
             if has_value(blacklist, item["name"]) then
                 print("Dropping: " + item["name"])
