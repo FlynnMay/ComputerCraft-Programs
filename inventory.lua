@@ -85,9 +85,9 @@ local function dropBlacklistedItems()
         local item = turtle.getItemDetail(i)
         
         if item ~= nil then
-            print("Checking: " + item["name"])
+            print("Checking: " .. item["name"])
             if has_value(blacklist, item["name"]) then
-                print("Dropping: " + item["name"])
+                print("Dropping: " .. item["name"])
                 turtle.drop()                
             end         
         end
@@ -100,7 +100,7 @@ local function registerBlacklistItem(itemName)
     end
 
     blacklist[#blacklist+1] = itemName
-    print("Blacklisted: " + itemName)
+    print("Blacklisted: " .. itemName)
 end
 
 local function registerSlotAsBlacklistItem()
