@@ -1,31 +1,27 @@
 local extendedTurtle = require("extendedTurtle")
-local blacklist = {}
+local blacklist = require("blacklist")
 
--- Helper Functions
-
-local function has_value(table, value)
-    for index, otherValue in ipairs(table) do
-        if otherValue == value then
-            return true
-        end
+-- helpers
+local function loopInventory(fn)
+    for i = 1, 16 do
+        local found, slot = fn(i, turtle.getItemDetail(i))
+        if found then return true, slot end
     end
+    return false, 0
+end
 
-    return false;
+local function loopItems(fn)
+    return loopInventory(function(i, item)
+        if item ~= nil and fn(i, item) then
+            return true, i
+        end
+    end)
 end
 
 
 -- returns if it was found and the slot (0 if not found)
 local function findItem(targetName)
-    for i = 1, 16 do      
-        local item = turtle.getItemDetail(i)
-
-        if item ~= nil then
-            if item["name"] == targetName then
-                return true, i
-            end
-        end
-    end
-    return false, 0
+    return loopItems(function(_, item) return item["name"] == targetName end)
 end
 
 local function placeItemFromSlot(slot)
@@ -50,12 +46,8 @@ local function placeItemDownFromSlot(slot)
 end
 
 local function allSlotsContainItems()
-    for i = 1, 16 do
-        local item = turtle.getItemDetail(i)
-        if item == nil then return false end
-    end
-
-    return true
+    local emptyFound = loopInventory(function(i, item) return item == nil end)
+    return not emptyFound
 end
 
 local function hoveringOverItem()
@@ -67,57 +59,45 @@ end
 local function getTotalItemCount(itemName)
     local totalFound = 0
 
-    for i = 1, 16 do
-        local item = turtle.getItemDetail(i)
-        
-        if item ~= nil then
-            if item["name"] == itemName then
-                totalFound = totalFound + turtle.getItemCount()
-            end
+    loopItems(function(_, item)
+        if item["name"] == itemName then
+            totalFound = totalFound + item["count"]
         end
-    end
-    
+        return false
+    end)
+
     return totalFound
 end
 
 local function dropBlacklistedItems()
-    for i = 1, 16 do
-        local item = turtle.getItemDetail(i)
-        
-        if item ~= nil then
-            print("Checking: " .. item["name"])
-            if has_value(blacklist, item["name"]) then
-                print("Dropping: " .. item["name"])
-                turtle.drop()                
-            end         
+    local blist = blacklist.get()
+    loopItems(function(i, item)
+        if blist[item["name"]] then
+            turtle.select(i)
+            print("Dropping: " .. item["name"])
+            turtle.drop()
         end
-    end
+        return false
+    end)
+    turtle.select(1)
 end
 
-local function registerBlacklistItem(itemName)
-    if has_value(blacklist, itemName) then
-        return
-    end
+local cmd = arg[1]
 
-    blacklist[#blacklist+1] = itemName
-    print("Blacklisted: " .. itemName)
+if cmd == "blacklist" then
+    loopItems(function(_, item) blacklist.registerItem(item["name"]) end)
+    dropBlacklistedItems()
+else
+    print("Usage: blacklist")
 end
 
-local function registerSlotAsBlacklistItem()
-    local name, _ = turtle.getItemDetail()
-    registerBlacklistItem(name);
-end
-
-local function registerInventoryAsBlacklistItems()
-    for i = 1, 16 do
-        local item = turtle.getItemDetail(i)
-        
-        if item ~= nil then
-            registerBlacklistItem(item["name"])
-        end
-    end
-end
-
-return { findItem = findItem, placeItemDownFromSlot = placeItemDownFromSlot, placeItemUpFromSlot = placeItemUpFromSlot,
-    placeItemFromSlot = placeItemFromSlot, allSlotsContainItems = allSlotsContainItems, hoveringOverItem = hoveringOverItem, getTotalItemCount = getTotalItemCount,
-    dropBlacklistedItems = dropBlacklistedItems, registerBlacklistItem = registerBlacklistItem, registerSlotAsBlacklistItem = registerSlotAsBlacklistItem, registerInventoryAsBlacklistItems = registerInventoryAsBlacklistItems }
+return {
+    findItem = findItem,
+    placeItemDownFromSlot = placeItemDownFromSlot,
+    placeItemUpFromSlot = placeItemUpFromSlot,
+    placeItemFromSlot = placeItemFromSlot,
+    allSlotsContainItems = allSlotsContainItems,
+    hoveringOverItem = hoveringOverItem,
+    getTotalItemCount = getTotalItemCount,
+    dropBlacklistedItems = dropBlacklistedItems,
+}

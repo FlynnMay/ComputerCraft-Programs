@@ -1,31 +1,40 @@
 local trackedHeading = 0
-local homeLocation = vector.new(0,0,0)
+local homeLocation = vector.new(0, 0, 0)
 
-local function clearObstructions()
+local function shouldBreak(found, data, friendlyFire)
+    if not friendlyFire then return true end
+
+    return not (found and data and data.name == "computercraft:turtle_normal")
+end
+
+local function clearObstructions(friendlyFire)
+    if friendlyFire == nil then friendlyFire = true end
     while turtle.detect() do
         local found, data = turtle.inspect()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
+
+        if shouldBreak(found, data, friendlyFire) then
             turtle.dig();
         end
     end
 end
 
-local function clearObstructionsUp()
+local function clearObstructionsUp(friendlyFire)
+    if friendlyFire == nil then friendlyFire = true end
     while turtle.detectUp() do
         local found, data = turtle.inspectUp()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
+
+        if shouldBreak(found, data, friendlyFire) then
             turtle.digUp();
         end
     end
 end
 
-local function clearObstructionsDown()
+local function clearObstructionsDown(friendlyFire)
+    if friendlyFire == nil then friendlyFire = true end
     while turtle.detectDown() do
         local found, data = turtle.inspectDown()
-        
-        if not (found and data and data.name == "computercraft:turtle_normal") then
+
+        if shouldBreak(found, data, friendlyFire) then
             turtle.digDown();
         end
     end
@@ -60,14 +69,17 @@ end
 
 local function calibrateHeading()
     local locOrigin = vector.new(gps.locate(2, false))
-    
+
     forward()
 
     local locEnding = vector.new(gps.locate(2, false))
+    local delta = locEnding - locOrigin
 
-    local heading = locEnding - locOrigin
+    if delta.x ~= 0 then
+        return encodeAxis((delta.x < 0 and "-" or "+") .. "x")
+    end
 
-    return ((heading.x + math.abs(heading.x) * 2) + (heading.z + math.abs(heading.z) * 3))
+    return encodeAxis((delta.z < 0 and "-" or "+") .. "z")
 end
 
 local function face(encodedAxis)

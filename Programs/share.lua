@@ -4,6 +4,7 @@
 --   share get <file> [file...]    download (overwrites)
 --   share put <file> [file...]    upload
 --   share pull                    download every file on the server
+--   share get all                 same as pull
 --   share config <url> [token]    save server address, e.g. http://192.168.1.5:8080
 
 local CONFIG = ".share_config"
@@ -67,13 +68,13 @@ if cmd == "config" and arg[2] then
     print("Saved.")
 elseif cmd == "list" then
     print(request(loadConfig(), "/list"))
-elseif cmd == "get" and arg[2] then
+elseif cmd == "get" and arg[2] and arg[2] ~= "all" then
     local cfg = loadConfig()
     for i = 2, #arg do get(cfg, arg[i]) end
 elseif cmd == "put" and arg[2] then
     local cfg = loadConfig()
     for i = 2, #arg do put(cfg, arg[i]) end
-elseif cmd == "pull" then
+elseif cmd == "pull" or (cmd == "get" and arg[2] == "all") then
     local cfg = loadConfig()
     for name in request(cfg, "/list"):gmatch("[^\n]+") do get(cfg, name) end
 else
