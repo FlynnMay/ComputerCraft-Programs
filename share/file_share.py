@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """File share server for ComputerCraft computers.
 
-Serves a directory (default: ../Programs) over HTTP so CC computers can
+Serves a directory (default: ../lua) over HTTP so CC computers can
 list, download and upload files with the built-in `http` API.
 
     GET  /list            -> newline separated relative file paths
@@ -149,7 +149,7 @@ class ShareHandler(BaseHTTPRequestHandler):
 
 
 def main():
-    default_root = Path(__file__).resolve().parent.parent / "Programs"
+    default_root = Path(__file__).resolve().parent.parent / "lua"
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", type=Path, default=default_root, help="directory to share (default: %(default)s)")
     ap.add_argument("--host", default="0.0.0.0", help="bind address (default: %(default)s)")

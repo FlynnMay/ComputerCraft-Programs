@@ -76,8 +76,9 @@ const PAYLOAD = {
     (p.name === undefined || typeof p.name === 'string'),
   [MSG.HELLO_ACK]: (p) => isObject(p) && isId(p.gatewayId) && isInt(p.serverTime),
   [MSG.HELLO_ERR]: (p) => isObject(p) && typeof p.reason === 'string',
-  [MSG.PING]: (p) => isObject(p),
-  [MSG.PONG]: (p) => isObject(p),
+  // Ping and pong carry no data. Accept any payload, because CC may encode an empty table as [].
+  [MSG.PING]: () => true,
+  [MSG.PONG]: () => true,
   [MSG.ACK]: (p) => isObject(p) && isId(p.ref),
   [MSG.ERROR]: (p) => isObject(p) && typeof p.message === 'string',
 

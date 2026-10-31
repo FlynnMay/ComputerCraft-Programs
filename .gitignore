@@ -1,0 +1,2 @@
+# Holds the gateway secret. Only the .example copy is committed.
+lua/gateway/gateway.config

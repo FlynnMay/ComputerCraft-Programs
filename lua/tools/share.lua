@@ -41,6 +41,8 @@ end
 
 local function get(cfg, name)
     local data = request(cfg, "/files/" .. textutils.urlEncode(name):gsub("%%2F", "/"))
+    local dir = fs.getDir(name)
+    if dir ~= "" and not fs.exists(dir) then fs.makeDir(dir) end
     local f = fs.open(name, "wb")
     f.write(data)
     f.close()

@@ -1,0 +1,10 @@
+-- Copy this to "gateway.config" on the gateway computer and fill it in.
+-- The secret must match the gateway entry in the server's config.json.
+-- Don't commit the filled-in copy.
+return {
+    url = "ws://192.168.1.10:8080/gateway",
+    gatewayId = "gw-main",
+    name = "Main base",
+    secret = "replace-with-the-secret-from-server-config",
+    modemSide = "back",
+}
