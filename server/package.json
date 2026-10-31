@@ -1,0 +1,12 @@
+{
+  "name": "turtlenet-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:gateway": "node test/fake-gateway.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
