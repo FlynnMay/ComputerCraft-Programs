@@ -1,0 +1,7 @@
+-- Copy this to "agent.config" on each turtle and fill it in.
+-- gatewayComputerId is the computer id of the gateway, not its gatewayId string.
+return {
+    gatewayComputerId = 0,
+    modemSide = "back",
+    heartbeatEvery = 15,
+}

@@ -1,10 +1,11 @@
 -- Gateway: relays between turtles (rednet) and the PC server (WebSocket).
--- Config lives in "gateway.config" on the gateway computer. See gateway.config.example.
+-- Config lives in "/gateway/gateway.config" on the gateway computer. See gateway.config.example.
 
+package.path = package.path .. ";/lib/?.lua"
 local protocol = require("protocol")
 local MSG = protocol.MSG
 
-local config = dofile("gateway.config")
+local config = dofile("/gateway/gateway.config")
 
 local OUTBOX_LIMIT = 500
 local PING_EVERY = 15

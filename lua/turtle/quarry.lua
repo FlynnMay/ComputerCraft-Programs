@@ -1,4 +1,5 @@
 -- Requirements --
+package.path = package.path .. ";/lib/?.lua"
 local extendedTurtle = require("extendedTurtle")
 local inventory = require("inventory")
 

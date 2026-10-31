@@ -1,6 +1,7 @@
 local SERVER_PORT = 1997
 local CLIENT_PORT = 18
 
+package.path = package.path .. ";/lib/?.lua"
 local inventory = require("inventory")
 local extendedTurtle = require("extendedTurtle")
 local modem = peripheral.wrap("left")
